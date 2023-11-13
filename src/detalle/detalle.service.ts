@@ -5,8 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MoviesService } from 'src/movies/movies.service';
 import { HttpCustomService } from 'src/providers/http/http.service';
-import { moviedetailResponse } from './dto/detailResponse.dto';
-import { Movie } from 'src/movies/entities/movie.entity';
 
 @Injectable()
 export class DetalleService {
@@ -17,13 +15,8 @@ export class DetalleService {
     private readonly httpService: HttpCustomService,
   ) {}
 
-  async getAllMovies() {
-    const movies = this.movieService.findAll();
-  }
-
   create(createDetalleDto: CreateDetalleDto) {
     const newdetail = this.movieDetailRepository.create(createDetalleDto);
-    console.log(newdetail);
     return this.movieDetailRepository.save(newdetail);
   }
 

@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { DetalleService } from './detalle.service';
 import { CreateDetalleDto } from './dto/create-detalle.dto';
 
@@ -19,12 +11,7 @@ export class DetalleController {
     return this.detalleService.create(createDetalleDto);
   }
 
-  @Get('/getallmovies')
-  findAll() {
-    return this.detalleService.getAllMovies();
-  }
-
-  @Get('/getdetailmovie')
+  @Get('/getDetailMovie')
   getdetailmovie() {
     return this.detalleService.getDetailMovies();
   }
