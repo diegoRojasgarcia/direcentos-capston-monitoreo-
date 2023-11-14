@@ -10,7 +10,7 @@ import { DetalleModule } from './detalle/detalle.module';
       type: 'sqlite',
       database: 'dbtopicos.sqlite',
       entities: [__dirname + '/../**/*.entity.js'],
-      synchronize: false,
+      synchronize: true,
     }),
     MoviesModule,
     ProvidersModule,

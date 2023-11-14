@@ -3,8 +3,33 @@ syntax = "proto3";
 package movies;
 
 service MoviesService {
- 
+    rpc getMovies (Empty) returns (moviesResponse) {}
 }
+
+// getMovies
+
+message Empty {}
+
+message Detalle {
+    int32 id = 1;
+    string originaltitle = 2;
+    string overview = 3;
+    string posterpath = 4;
+}
+
+message Movie {
+    int32 id = 1;
+    bool adult = 2;
+    Detalle detalle = 3;
+}
+
+message moviesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Movie data = 3;
+}
+
+
 
 
 

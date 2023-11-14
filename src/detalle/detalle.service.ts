@@ -27,7 +27,12 @@ export class DetalleService {
     (await movies).forEach(async (movie) => {
       if (!movie.detalle) {
         const detail = this.httpService.getDetailMovies(movie.id);
-        this.create(await detail);
+        const newdetail = new moviedetail();
+        newdetail.id = (await detail).id;
+        newdetail.originaltitle = (await detail).original_title;
+        newdetail.overview = (await detail).overview;
+        newdetail.posterpath = (await detail).poster_path;
+        this.create(newdetail);
       }
     });
   }

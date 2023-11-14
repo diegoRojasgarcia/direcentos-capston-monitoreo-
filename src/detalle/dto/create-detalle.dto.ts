@@ -3,11 +3,11 @@ export class CreateDetalleDto {
   
   id: number;
 
-  original_title: string;
+  originaltitle: string;
 
   overview: string;
 
-  poster_path: string;
+  posterpath: string;
 
   
 }

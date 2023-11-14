@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -32,12 +32,10 @@ export class MoviesService {
   }
 
   async findAll(): Promise<Movie[]> {
-    const movies = this.movieRepository.find();
     return this.movieRepository.find();
   }
 
   async findAllMovies() {
-    const moviesdb = this.movieRepository.find();
-    return { movies: moviesdb };
+    return { status: HttpStatus.OK, error: null, data: await this.movieRepository.find()};
   }
 }

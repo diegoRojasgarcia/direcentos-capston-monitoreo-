@@ -1,18 +1,22 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { Movie } from './entities/movie.entity';
 import { GrpcMethod } from '@nestjs/microservices';
 
 @Controller('/movies')
 export class movieController {
   constructor(private readonly movieService: MoviesService) {}
 
-  @GrpcMethod('MoviesService', 'getAll')
+  @GrpcMethod('MoviesService', 'getMovies')
   getAll() {
     return this.movieService.findAllMovies();
   }
 
-  @Get('/getMovies')
+  @Get('/findMovies')
+  findAllMovies() {
+    return this.movieService.findAllMovies();
+  }
+
+  @Get('/getMoviesdb')
   getAllMovies() {
     this.movieService.getMovies(6);
   }

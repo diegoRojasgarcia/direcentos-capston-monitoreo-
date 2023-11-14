@@ -2,6 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { bearerToken } from '../constants';
 import { moviedetail } from 'src/detalle/entities/moviedetail.entity';
+import { moviedetailResponse } from 'src/detalle/dto/detailResponse.dto';
 const axios = require('axios');
 
 @Injectable()
@@ -19,7 +20,7 @@ export class HttpCustomService {
     return res['data']['results'];
   }
 
-  public async getDetailMovies(movie_id): Promise<moviedetail> {
+  public async getDetailMovies(movie_id): Promise<moviedetailResponse> {
     const res = await axios.get(
       `https://api.themoviedb.org/3/movie/${movie_id}`,
       {
