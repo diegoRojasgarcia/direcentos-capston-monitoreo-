@@ -11,18 +11,4 @@ export class movieController {
     return this.movieService.findAllMovies();
   }
 
-  @Get('/findMovies')
-  findAllMovies() {
-    return this.movieService.findAllMovies();
-  }
-
-  @Get('/getMoviesdb')
-  getAllMovies() {
-    this.movieService.getMovies(6);
-  }
-
-  @Post(':id')
-  findOne(@Param('id') id: number) {
-    return this.movieService.findMovieById(+id);
-  }
 }
