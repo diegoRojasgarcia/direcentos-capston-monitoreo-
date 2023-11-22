@@ -2,19 +2,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { INestMicroservice } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.GRPC,
-    options: {
-      package: 'movies',
-      protoPath: join(__dirname, './movies/protos/movie.proto'),
-      url: 'localhost:3005',
+
+  const app: INestMicroservice = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        url: '0.0.0.0:3010',
+        package: 'movies',
+        protoPath: join(__dirname, './movies/protos/movie.proto'),
+      },
     },
-  });
-  app.enableCors();
-  await app.startAllMicroservices();
-  await app.listen(3005);
+  );
+  await app.listen();
 }
 bootstrap();
