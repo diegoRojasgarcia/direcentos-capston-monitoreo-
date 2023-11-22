@@ -36,6 +36,10 @@ export class MoviesService {
   }
 
   async findAllMovies() {
-    return { status: HttpStatus.OK, error: null, data: await this.movieRepository.find()};
+    return {
+      status: HttpStatus.OK,
+      error: null,
+      data: await this.movieRepository.find(),
+    };
   }
 }
