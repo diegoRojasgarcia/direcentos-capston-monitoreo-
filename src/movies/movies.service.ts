@@ -23,12 +23,23 @@ export class MoviesService {
     return this.findAll(); // retornamos el repositorio de peliculas.
   }
 
-  async findMovieById(idmovie: number): Promise<Movie | null> {
-    return await this.movieRepository.findOne({
+  async findMovieById(idmovie) {
+    const movie = await this.movieRepository.findOne({
       where: {
-        id: idmovie,
+        id: idmovie.id,
       },
     });
+    if (!movie)
+      return {
+        movie: null,
+        error: ['Movie not found'],
+        status: HttpStatus.NOT_FOUND,
+      };
+    return {
+      movie: movie,
+      error: null,
+      status: HttpStatus.OK,
+    };
   }
 
   async findAll(): Promise<Movie[]> {

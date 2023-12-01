@@ -4,6 +4,7 @@ package movies;
 
 service MoviesService {
     rpc getMovies (Empty) returns (moviesResponse) {}
+    rpc findMovieById (FindMovieById) returns (FindMovieByIdResponse) {}
 }
 
 // getMovies
@@ -29,7 +30,12 @@ message moviesResponse {
     repeated Movie data = 3;
 }
 
+message FindMovieById {
+  int32 id = 1;
+}
 
-
-
-
+message FindMovieByIdResponse {
+  int32 status = 1;
+  repeated string error = 2;
+  Movie movie = 3;
+}
