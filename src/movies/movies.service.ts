@@ -27,7 +27,7 @@ export class MoviesService {
     return {
       status: HttpStatus.OK,
       error: null,
-      data: await this.findAll(),
+      message: 'Seed Movies Execute',
     };
   }
 
@@ -86,7 +86,7 @@ export class MoviesService {
       return {
         status: HttpStatus.OK,
         error: null,
-        message: 'Detalle movies ejecutado',
+        message: 'Seed DetalleMovies Execute',
       };
     } catch (error) {
       throw new BadRequestException(error);
