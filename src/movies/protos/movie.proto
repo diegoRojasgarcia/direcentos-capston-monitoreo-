@@ -3,8 +3,10 @@ syntax = "proto3";
 package movies;
 
 service MoviesService {
-    rpc getMovies (Empty) returns (moviesResponse) {}
+    rpc getAllMovies (Empty) returns (moviesResponse) {}
     rpc findMovieById (FindMovieById) returns (FindMovieByIdResponse) {}
+    rpc getMoviesTMDB (getMoviesPag) returns (getMoviesPagResponse) {}
+    rpc getMovieDetailTMDB (Empty) returns (getdetailmoviesPagResponse) {}
 }
 
 // getMovies
@@ -38,4 +40,20 @@ message FindMovieByIdResponse {
   int32 status = 1;
   repeated string error = 2;
   Movie movie = 3;
+}
+
+message getMoviesPag {
+  int32 id = 1;
+}
+
+message getMoviesPagResponse {
+  int32 status = 1;
+  repeated string error = 2;
+  repeated Movie data = 3;
+}
+
+message getdetailmoviesPagResponse {
+  int32 status = 1;
+  repeated string error = 2;
+  string message = 3;
 }

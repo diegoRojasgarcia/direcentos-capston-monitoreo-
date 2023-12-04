@@ -1,5 +1,5 @@
-import { moviedetail } from 'src/detalle/entities/moviedetail.entity';
 import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { moviedetail } from './moviedetail.entity';
 
 @Entity()
 export class Movie {

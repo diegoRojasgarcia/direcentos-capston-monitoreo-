@@ -1,6 +1,4 @@
-
 export class CreateDetalleDto {
-  
   id: number;
 
   originaltitle: string;
@@ -8,6 +6,4 @@ export class CreateDetalleDto {
   overview: string;
 
   posterpath: string;
-
-  
 }

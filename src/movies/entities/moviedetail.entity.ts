@@ -1,11 +1,17 @@
 import { Movie } from 'src/movies/entities/movie.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class moviedetail {
-  
   @PrimaryColumn()
-  @OneToOne(()  => Movie, (movie) => movie.id)
+  @OneToOne(() => Movie, (movie) => movie.id)
   @JoinColumn({ name: 'id' })
   id: number;
 
@@ -15,8 +21,6 @@ export class moviedetail {
   @Column()
   overview: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   posterpath!: string;
-  
-
 }

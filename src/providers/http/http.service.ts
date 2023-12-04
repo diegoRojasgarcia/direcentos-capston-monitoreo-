@@ -1,8 +1,7 @@
 import { Injectable, Param } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { bearerToken } from '../constants';
-import { moviedetail } from 'src/detalle/entities/moviedetail.entity';
-import { moviedetailResponse } from 'src/detalle/dto/detailResponse.dto';
+import { moviedetailResponse } from 'src/movies/dto/detailResponse.dto';
 const axios = require('axios');
 
 @Injectable()

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MoviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProvidersModule } from './providers/providers.module';
-import { DetalleModule } from './detalle/detalle.module';
 
 @Module({
   imports: [
@@ -14,7 +13,6 @@ import { DetalleModule } from './detalle/detalle.module';
     }),
     MoviesModule,
     ProvidersModule,
-    DetalleModule,
   ],
   controllers: [],
   providers: [],
