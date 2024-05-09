@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { INestMicroservice } from '@nestjs/common';
-import { MOVIES_PACKAGE_NAME } from './movies/movie.pb';
+import { DIRECENTOS_PACKAGE_NAME } from './direcentos/direcentos.pb';
 
 async function bootstrap() {
   const app: INestMicroservice =
@@ -11,8 +11,8 @@ async function bootstrap() {
       transport: Transport.GRPC,
       options: {
         url: '0.0.0.0:3010',
-        package: MOVIES_PACKAGE_NAME,
-        protoPath: join(__dirname, './movies/protos/movie.proto'),
+        package: DIRECENTOS_PACKAGE_NAME,
+        protoPath: join(__dirname, './direcentos/protos/direcentos.proto'),
       },
     });
   await app.listen();

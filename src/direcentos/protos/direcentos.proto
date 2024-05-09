@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package direcentos;
+
+service DirecentosService {
+    rpc getDirectorios (Empty) returns (directoriosResponse) {}
+    rpc getDates (datesInput) returns (datesResponse) {}
+    rpc writeToFile (labInput) returns (createdResponse) {}
+    rpc deletedFile (labInput) returns (deletedResponse) {}
+}
+
+// getDirectorios
+
+message Empty {}
+
+message directoriosResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated string folders = 3;
+}
+
+message datesInput {
+    string lab = 1;
+}
+
+message datesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated string folders = 3;
+}
+
+message labInput {
+    string lab = 1;
+}
+
+message createdResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    bool created = 3;
+}
+
+message deletedResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    bool deleted = 3;
+}
+
+

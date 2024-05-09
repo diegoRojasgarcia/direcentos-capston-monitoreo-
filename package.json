@@ -37,6 +37,7 @@
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "graphql": "^16.6.0",
+    "nestjs-file-system": "^0.0.7",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
