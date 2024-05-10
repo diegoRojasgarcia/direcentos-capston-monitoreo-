@@ -7,7 +7,7 @@ import * as _path from 'node:path';
 import * as fs from 'node:fs';
 import { error } from 'node:console';
 
-const directoryPath = '/Users/Dieg0/Desktop/monitoreoo';
+const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
 @Injectable()
 export class DirecentosService {
