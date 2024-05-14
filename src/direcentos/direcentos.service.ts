@@ -5,22 +5,24 @@ import {
 } from '@nestjs/common';
 import * as _path from 'node:path';
 import * as fs from 'node:fs';
-import { error } from 'node:console';
-
+import { Dates } from './class/dates.entity';
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
 @Injectable()
 export class DirecentosService {
   async listFile() {
     try {
-      const files = fs.readdirSync(_path.resolve(directoryPath), {
+      const files = await fs.readdirSync(_path.resolve(directoryPath), {
         withFileTypes: true,
       });
+
+      const directorios = files.filter((archivo) => archivo.isDirectory());
+
       if (files) {
         return {
           status: HttpStatus.OK,
           error: [],
-          folders: files.map((file) => file.name),
+          folders: directorios.map((file) => file.name),
         };
       }
       return {
@@ -36,13 +38,22 @@ export class DirecentosService {
   async listDates(lab) {
     const datesPath = directoryPath + '/' + lab.lab;
     try {
-      const files = fs.readdirSync(_path.resolve(datesPath), {
+      const dates: Dates[] = [];
+      const files = await fs.readdirSync(_path.resolve(datesPath), {
         withFileTypes: true,
       });
+
+      const directorios = files.filter((archivo) => archivo.isDirectory());
+
+      directorios.forEach((dato) => {
+        const objeto = new Dates(dato.name);
+        dates.push(objeto);
+      });
+
       return {
         status: HttpStatus.OK,
         error: [],
-        folders: files.map((file) => file.name),
+        folders: dates,
       };
     } catch (e) {
       throw new ServiceUnavailableException(e);
@@ -51,33 +62,37 @@ export class DirecentosService {
 
   async writeToFile(lab) {
     const datesPath = directoryPath + '/' + lab.lab + '/' + 'c.txt';
-    //validar que el archivo no exista!!!
     const content = 'programacion avanzada';
-    try {
-      const res = fs.writeFileSync(datesPath, content);
+    if (!fs.existsSync(datesPath)) {
+      fs.writeFileSync(datesPath, content);
       return {
         status: HttpStatus.OK,
         error: [],
         created: true,
       };
-      // file written successfully
-    } catch (e) {
-      throw new ServiceUnavailableException(e);
     }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['El archivo ya está creado'],
+      created: false,
+    };
   }
 
   async deleteFile(lab) {
     const datesPath = directoryPath + '/' + lab.lab + '/c.txt';
-    //validar que el archivo exista!!!
-    try {
-      const res = fs.unlinkSync(datesPath);
+    if (fs.existsSync(datesPath)) {
+      fs.unlinkSync(datesPath);
       return {
         status: HttpStatus.OK,
         error: [],
         deleted: true,
       };
-    } catch (e) {
-      throw new ServiceUnavailableException(e);
+    } else {
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: ['does not exist!'],
+        deleted: false,
+      };
     }
   }
 }

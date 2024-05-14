@@ -19,6 +19,10 @@ message directoriosResponse {
     repeated string folders = 3;
 }
 
+message Date {
+    string nombre = 1;
+}
+
 message datesInput {
     string lab = 1;
 }
@@ -26,7 +30,7 @@ message datesInput {
 message datesResponse {
     int32 status = 1;
     repeated string error = 2;
-    repeated string folders = 3;
+    repeated Date folders = 3;
 }
 
 message labInput {
