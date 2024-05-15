@@ -62,7 +62,6 @@ export class DirecentosService {
   }
 
   async listComputadores(payload) {
-    console.log(payload);
     const pcsPath = directoryPath + '/' + payload.lab + '/' + payload.fecha;
     try {
       const pcs: PC[] = [];
