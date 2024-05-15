@@ -6,6 +6,7 @@ import {
 import * as _path from 'node:path';
 import * as fs from 'node:fs';
 import { Dates } from './class/dates.entity';
+import { PC } from './class/pc.entity';
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
 @Injectable()
@@ -54,6 +55,32 @@ export class DirecentosService {
         status: HttpStatus.OK,
         error: [],
         folders: dates,
+      };
+    } catch (e) {
+      throw new ServiceUnavailableException(e);
+    }
+  }
+
+  async listComputadores(payload) {
+    console.log(payload);
+    const pcsPath = directoryPath + '/' + payload.lab + '/' + payload.fecha;
+    try {
+      const pcs: PC[] = [];
+      const files = await fs.readdirSync(_path.resolve(pcsPath), {
+        withFileTypes: true,
+      });
+
+      const directorios = files.filter((archivo) => archivo.isDirectory());
+
+      directorios.forEach((dato) => {
+        const objeto = new Dates(dato.name);
+        pcs.push(objeto);
+      });
+
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        folders: pcs,
       };
     } catch (e) {
       throw new ServiceUnavailableException(e);

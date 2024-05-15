@@ -17,6 +17,11 @@ export class DirecentosController {
     return this.direcentosService.listDates(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getPcs')
+  getPcs(payload) {
+    return this.direcentosService.listComputadores(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'writeToFile')
   writeToFile(payload: string) {
     return this.direcentosService.writeToFile(payload);
