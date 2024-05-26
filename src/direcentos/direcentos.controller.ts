@@ -13,7 +13,7 @@ export class DirecentosController {
   }
 
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getDates')
-  getDates(payload: string) {
+  getDates(payload) {
     return this.direcentosService.listDates(payload);
   }
 
@@ -23,12 +23,17 @@ export class DirecentosController {
   }
 
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'writeToFile')
-  writeToFile(payload: string) {
+  writeToFile(payload) {
     return this.direcentosService.writeToFile(payload);
   }
 
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'deletedFile')
-  deletedFile(payload: string) {
+  deletedFile(payload) {
     return this.direcentosService.deleteFile(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'existFile')
+  existFile(payload) {
+    return this.direcentosService.existFile(payload);
   }
 }

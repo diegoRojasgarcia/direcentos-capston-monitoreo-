@@ -36,8 +36,8 @@ export class DirecentosService {
     }
   }
 
-  async listDates(lab) {
-    const datesPath = directoryPath + '/' + lab.lab;
+  async listDates(payload) {
+    const datesPath = directoryPath + '/' + payload.lab;
     try {
       const dates: Dates[] = [];
       const files = await fs.readdirSync(_path.resolve(datesPath), {
@@ -86,9 +86,9 @@ export class DirecentosService {
     }
   }
 
-  async writeToFile(lab) {
-    const datesPath = directoryPath + '/' + lab.lab + '/' + 'c.txt';
-    const content = 'programacion avanzada';
+  async writeToFile(payload) {
+    const datesPath = directoryPath + '/' + payload.lab + '/' + 'c.txt';
+    const content = payload.actividad;
     if (!fs.existsSync(datesPath)) {
       fs.writeFileSync(datesPath, content);
       return {
@@ -120,5 +120,21 @@ export class DirecentosService {
         deleted: false,
       };
     }
+  }
+
+  async existFile(payload) {
+    const datesPath = directoryPath + '/' + payload.lab + '/' + 'c.txt';
+    if (fs.existsSync(datesPath)) {
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        exist: true,
+      };
+    }
+    return {
+      status: HttpStatus.NOT_FOUND,
+      error: ['El archivo no existe'],
+      exist: false,
+    };
   }
 }

@@ -6,8 +6,9 @@ service DirecentosService {
     rpc getDirectorios (Empty) returns (directoriosResponse) {}
     rpc getDates (datesInput) returns (datesResponse) {}
     rpc getPcs (pcsInput) returns (pcsResponse) {}
-    rpc writeToFile (labInput) returns (createdResponse) {}
+    rpc writeToFile (writeToFileInput) returns (createdResponse) {}
     rpc deletedFile (labInput) returns (deletedResponse) {}
+    rpc existFile (labInput) returns (existFileResponse) {}
 }
 
 // getDirectorios
@@ -53,6 +54,11 @@ message labInput {
     string lab = 1;
 }
 
+message writeToFileInput {
+    string lab = 1;
+    string actividad = 2;
+}
+
 message createdResponse {
     int32 status = 1;
     repeated string error = 2;
@@ -63,6 +69,12 @@ message deletedResponse {
     int32 status = 1;
     repeated string error = 2;
     bool deleted = 3;
+}
+
+message existFileResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    bool exist = 3;
 }
 
 
