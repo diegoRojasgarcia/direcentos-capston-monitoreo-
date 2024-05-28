@@ -104,6 +104,24 @@ export class DirecentosService {
     };
   }
 
+  async writeToFileProg(payload) {
+    const datesPath = directoryPath + '/' + payload.lab + '/' + 'd.txt';
+    const content = payload.content;
+    if (!fs.existsSync(datesPath)) {
+      fs.writeFileSync(datesPath, content);
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        created: true,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['El archivo ya está creado'],
+      created: false,
+    };
+  }
+
   async deleteFile(lab) {
     const datesPath = directoryPath + '/' + lab.lab + '/c.txt';
     if (fs.existsSync(datesPath)) {

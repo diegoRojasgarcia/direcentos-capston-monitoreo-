@@ -27,6 +27,11 @@ export class DirecentosController {
     return this.direcentosService.writeToFile(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'writeToFileProg')
+  writeToFileProg(payload) {
+    return this.direcentosService.writeToFileProg(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'deletedFile')
   deletedFile(payload) {
     return this.direcentosService.deleteFile(payload);
