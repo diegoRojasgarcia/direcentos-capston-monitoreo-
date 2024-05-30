@@ -5,6 +5,7 @@ package direcentos;
 service DirecentosService {
     rpc getDirectorios (Empty) returns (directoriosResponse) {}
     rpc getDates (datesInput) returns (datesResponse) {}
+    rpc getActividades (actividadesInput) returns (actividadesResponse) {}
     rpc getPcs (pcsInput) returns (pcsResponse) {}
     rpc writeToFile (writeToFileInput) returns (createdResponse) {}
     rpc writeToFileProg (writeToFileProgInput) returns (createdResponse) {}
@@ -36,6 +37,22 @@ message datesResponse {
     repeated Date folders = 3;
 }
 
+
+message Actividad {
+    string nombre = 1;
+}
+
+message actividadesInput {
+    string lab = 1;
+    string fecha = 2;
+}
+
+message actividadesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Actividad folders = 3;
+}
+
 message Pc {
     string nombre = 1;
 }
@@ -43,6 +60,7 @@ message Pc {
 message pcsInput {
     string lab = 1;
     string fecha = 2;
+    string actividad = 3;
 }
 
 message pcsResponse {

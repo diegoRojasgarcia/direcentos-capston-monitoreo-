@@ -17,6 +17,11 @@ export class DirecentosController {
     return this.direcentosService.listDates(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getActividades')
+  getActividades(payload) {
+    return this.direcentosService.listActividad(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getPcs')
   getPcs(payload) {
     return this.direcentosService.listComputadores(payload);
