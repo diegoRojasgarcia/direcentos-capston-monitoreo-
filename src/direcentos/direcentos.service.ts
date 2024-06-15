@@ -216,7 +216,6 @@ export class DirecentosService {
     const directorios = files.filter((archivo) => archivo.isDirectory());
     directorios.map(async (file) => {
       const resp = this.existFile({ lab: file.name });
-      console.log((await resp).exist, file.name);
       if ((await resp).exist) {
         const lab = new Laboratorio(file.name);
         laboratorios.push(lab);
