@@ -32,6 +32,11 @@ export class DirecentosController {
     return this.direcentosService.writeToFile(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'writeToFiles')
+  async writeToFiles(payload) {
+    return this.direcentosService.writeToFiles(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'writeToFileProg')
   writeToFileProg(payload) {
     return this.direcentosService.writeToFileProg(payload);
@@ -45,5 +50,10 @@ export class DirecentosController {
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'existFile')
   existFile(payload) {
     return this.direcentosService.existFile(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLabsMonitoring')
+  getLabsMonitoring() {
+    return this.direcentosService.labsMonitoring();
   }
 }

@@ -8,7 +8,8 @@ import * as fs from 'node:fs';
 import { Dates } from './class/dates.entity';
 import { PC } from './class/pc.entity';
 import { Actividad } from './class/actividad.entity';
-import { AclResourceTypes } from '@nestjs/microservices/external/kafka.interface';
+import { Laboratorio } from './class/laboratorio.entity';
+
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
 @Injectable()
@@ -136,6 +137,25 @@ export class DirecentosService {
     };
   }
 
+  async writeToFiles(payload) {
+    const datesPath =
+      directoryPath + '/' + payload.lab + '/' + payload.filename + '.txt';
+    const content = payload.content;
+    if (!fs.existsSync(datesPath)) {
+      fs.writeFileSync(datesPath, content);
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        created: true,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['El archivo ya está creado'],
+      created: false,
+    };
+  }
+
   async writeToFileProg(payload) {
     const datesPath = directoryPath + '/' + payload.lab + '/' + 'd.txt';
     const content = payload.content;
@@ -185,6 +205,27 @@ export class DirecentosService {
       status: HttpStatus.NOT_FOUND,
       error: ['El archivo no existe'],
       exist: false,
+    };
+  }
+
+  async labsMonitoring() {
+    const laboratorios: Laboratorio[] = [];
+    const files = await fs.readdirSync(_path.resolve(directoryPath), {
+      withFileTypes: true,
+    });
+    const directorios = files.filter((archivo) => archivo.isDirectory());
+    directorios.map(async (file) => {
+      const resp = this.existFile({ lab: file.name });
+      console.log((await resp).exist, file.name);
+      if ((await resp).exist) {
+        const lab = new Laboratorio(file.name);
+        laboratorios.push(lab);
+      }
+    });
+    return {
+      status: HttpStatus.OK,
+      error: [],
+      folders: laboratorios,
     };
   }
 
