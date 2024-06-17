@@ -175,9 +175,15 @@ export class DirecentosService {
   }
 
   async deleteFile(lab) {
-    const datesPath = directoryPath + '/' + lab.lab + '/c.txt';
-    if (fs.existsSync(datesPath)) {
-      fs.unlinkSync(datesPath);
+    const datesPathcaptura = directoryPath + '/' + lab.lab + '/c.txt';
+    const datesPatharchweb = directoryPath + '/' + lab.lab + '/w.txt';
+    const datesPatharchapp = directoryPath + '/' + lab.lab + '/a.txt';
+    const datesPatharchuser = directoryPath + '/' + lab.lab + '/i.txt';
+    if (fs.existsSync(datesPathcaptura)) {
+      fs.unlinkSync(datesPathcaptura);
+      fs.unlinkSync(datesPatharchweb);
+      fs.unlinkSync(datesPatharchapp);
+      fs.unlinkSync(datesPatharchuser);
       return {
         status: HttpStatus.OK,
         error: [],
