@@ -12,6 +12,11 @@ export class DirecentosController {
     return this.direcentosService.listFile();
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLaboratorios')
+  getLaboratorios() {
+    return this.direcentosService.listLaboratorios();
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getDates')
   getDates(payload) {
     return this.direcentosService.listDates(payload);

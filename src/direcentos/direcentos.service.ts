@@ -39,6 +39,31 @@ export class DirecentosService {
     }
   }
 
+  async listLaboratorios() {
+    try {
+      const laboratorios: Laboratorio[] = [];
+      const files = await fs.readdirSync(_path.resolve(directoryPath), {
+        withFileTypes: true,
+      });
+
+      const directorios = files.filter((archivo) => archivo.isDirectory());
+
+      directorios.forEach((dato) => {
+        const objeto = new Laboratorio(dato.name);
+        console.log(objeto);
+        laboratorios.push(objeto);
+      });
+
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        folders: laboratorios,
+      };
+    } catch (e) {
+      throw new ServiceUnavailableException(e);
+    }
+  }
+
   async listDates(payload) {
     const datesPath = directoryPath + '/' + payload.lab;
     try {

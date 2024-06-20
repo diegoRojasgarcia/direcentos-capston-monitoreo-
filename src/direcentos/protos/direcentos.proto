@@ -4,6 +4,7 @@ package direcentos;
 
 service DirecentosService {
     rpc getDirectorios (Empty) returns (directoriosResponse) {}
+    rpc getLaboratorios (Empty) returns (laboratoriosResponse) {}
     rpc getDates (datesInput) returns (datesResponse) {}
     rpc getActividades (actividadesInput) returns (actividadesResponse) {}
     rpc getPcs (pcsInput) returns (pcsResponse) {}
@@ -23,6 +24,12 @@ message directoriosResponse {
     int32 status = 1;
     repeated string error = 2;
     repeated string folders = 3;
+}
+
+message laboratoriosResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Laboratorio folders = 3;
 }
 
 message Date {
