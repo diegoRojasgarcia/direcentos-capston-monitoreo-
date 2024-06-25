@@ -7,6 +7,7 @@ service DirecentosService {
     rpc getLaboratorios (Empty) returns (laboratoriosResponse) {}
     rpc getDates (datesInput) returns (datesResponse) {}
     rpc getActividades (actividadesInput) returns (actividadesResponse) {}
+    rpc getLastActividad (actividadesInput) returns (lastactividadResponse) {}
     rpc getPcs (pcsInput) returns (pcsResponse) {}
     rpc writeToFile (writeToFileInput) returns (createdResponse) {}
     rpc writeToFiles (writeToFilesInput) returns (createdResponse) {}
@@ -60,6 +61,12 @@ message actividadesResponse {
     int32 status = 1;
     repeated string error = 2;
     repeated Actividad folders = 3;
+}
+
+message lastactividadResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Actividad folders = 3;
 }
 
 message Pc {

@@ -27,6 +27,11 @@ export class DirecentosController {
     return this.direcentosService.listActividad(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLastActividad')
+  getLastActividades(payload) {
+    return this.direcentosService.lastActividad(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getPcs')
   getPcs(payload) {
     return this.direcentosService.listComputadores(payload);

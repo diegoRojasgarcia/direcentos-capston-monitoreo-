@@ -1,8 +1,4 @@
-import {
-  HttpStatus,
-  Injectable,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import * as _path from 'node:path';
 import * as fs from 'node:fs';
 import { Dates } from './class/dates.entity';
@@ -35,7 +31,7 @@ export class DirecentosService {
         folders: [],
       };
     } catch (e) {
-      throw new ServiceUnavailableException(e);
+      throw new NotFoundException(e);
     }
   }
 
@@ -60,7 +56,7 @@ export class DirecentosService {
         folders: laboratorios,
       };
     } catch (e) {
-      throw new ServiceUnavailableException(e);
+      throw new NotFoundException(e);
     }
   }
 
@@ -85,7 +81,7 @@ export class DirecentosService {
         folders: dates,
       };
     } catch (e) {
-      throw new ServiceUnavailableException(e);
+      throw new NotFoundException(e);
     }
   }
 
@@ -108,7 +104,46 @@ export class DirecentosService {
         folders: actividades,
       };
     } catch (e) {
-      throw new ServiceUnavailableException(e);
+      throw new NotFoundException(e);
+    }
+  }
+
+  async lastActividad(payload) {
+    const datesPath = directoryPath + '/' + payload.lab + '/' + payload.fecha;
+    try {
+      const actividades: Actividad[] = [];
+      const files = await fs.readdirSync(_path.resolve(datesPath), {
+        withFileTypes: true,
+      });
+      const directorios = files.filter((archivo) => archivo.isDirectory());
+      directorios.forEach((dato) => {
+        const objeto = new Actividad(dato.name);
+        actividades.push(objeto);
+      });
+
+      console.log(actividades);
+
+      let latestFolder = null;
+      let latestTime = 0;
+
+      directorios.forEach((folder) => {
+        const folderPath = _path.join(datesPath, folder.name);
+        const stats = fs.statSync(folderPath);
+        if (stats.mtimeMs > latestTime) {
+          latestTime = stats.mtimeMs;
+          latestFolder = folder.name;
+        }
+      });
+
+      const actividad = new Actividad(latestFolder);
+
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        folders: actividad,
+      };
+    } catch (e) {
+      throw new NotFoundException(e);
     }
   }
 
@@ -140,7 +175,7 @@ export class DirecentosService {
         folders: pcs,
       };
     } catch (e) {
-      throw new ServiceUnavailableException(e);
+      throw new NotFoundException(e);
     }
   }
 
@@ -191,12 +226,14 @@ export class DirecentosService {
         error: [],
         created: true,
       };
+    } else {
+      fs.appendFileSync(datesPath, `\n${content}`);
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        created: true,
+      };
     }
-    return {
-      status: HttpStatus.CONFLICT,
-      error: ['El archivo ya está creado'],
-      created: false,
-    };
   }
 
   async deleteFile(lab) {
