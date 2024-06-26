@@ -66,7 +66,7 @@ message actividadesResponse {
 message lastactividadResponse {
     int32 status = 1;
     repeated string error = 2;
-    Actividad folders = 3;
+    repeated Actividad folders = 3;
 }
 
 message Pc {

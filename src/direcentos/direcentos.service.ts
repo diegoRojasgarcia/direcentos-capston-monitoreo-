@@ -112,6 +112,7 @@ export class DirecentosService {
     const datesPath = directoryPath + '/' + payload.lab + '/' + payload.fecha;
     try {
       const actividades: Actividad[] = [];
+      const lastactividad: Actividad[] = [];
       const files = await fs.readdirSync(_path.resolve(datesPath), {
         withFileTypes: true,
       });
@@ -136,11 +137,12 @@ export class DirecentosService {
       });
 
       const actividad = new Actividad(latestFolder);
+      lastactividad.push(actividad);
 
       return {
         status: HttpStatus.OK,
         error: [],
-        folders: actividad,
+        folders: lastactividad,
       };
     } catch (e) {
       throw new NotFoundException(e);
