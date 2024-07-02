@@ -4,7 +4,7 @@ package direcentos;
 
 service DirecentosService {
     rpc getDirectorios (Empty) returns (directoriosResponse) {}
-    rpc getLaboratorios (Empty) returns (laboratoriosResponse) {}
+    rpc getLaboratorioscnts (Empty) returns (laboratoriosResponse) {}
     rpc getDates (datesInput) returns (datesResponse) {}
     rpc getActividades (actividadesInput) returns (actividadesResponse) {}
     rpc getLastActividad (actividadesInput) returns (lastactividadResponse) {}
@@ -15,6 +15,121 @@ service DirecentosService {
     rpc deletedFile (labInput) returns (deletedResponse) {}
     rpc existFile (labInput) returns (existFileResponse) {}
     rpc getLabsMonitoring (Empty) returns (labsmonitoringresponse) {}
+    rpc getLabsMonitoringdb (Empty) returns (labsmonitoringresponse) {}
+    rpc getProgramaciones (Empty) returns (programacionesResponse) {}
+    rpc getLaboratoriosdb (Empty) returns (laboratoriosdbResponse) {}
+    rpc CreateProgramacion (Programacion) returns (programacionResponse) {}
+    rpc CreateA (createAinput) returns (AResponse) {}
+    rpc CreateW (createWinput) returns (WResponse) {}
+    rpc UpdateLab (updateLabInput) returns (updateLabResponse) {}
+    rpc UpdateProgramacion (updateProgramacionInput) returns (updateProgramacionResponse) {}
+    rpc DeleteProgramacion (deleteProgramacionInput) returns (deleteProgramacionResponse) {}
+}
+
+// eliminando programacion
+
+message deleteProgramacionInput {
+    int32 id = 1;
+}
+
+message deleteProgramacionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Programacion programacion = 3;
+}
+
+//actualizando Programacion
+
+message updateProgramacionInput {
+    int32 id = 1;
+    string actividad = 2 ;
+    string fecha = 3 ;
+    string horainicio = 4 ;
+    string horafin = 5 ;
+}
+
+message updateProgramacionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Programacion programacion = 3;
+}
+
+//actualizando laboratorios
+
+message updateLabInput {
+    int32 id = 1;
+    string displayName = 2 ;
+}
+
+message updateLabResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Laboratorio laboratorio = 3;
+}
+
+//para la creacion de los limitantes
+
+message createAinput {
+    repeated string aplicaciones = 1;
+}
+
+message A {
+    int32 id = 1;
+}
+
+message AResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    A aplicaciones = 3;
+}
+
+message createWinput {
+    repeated string websites = 1;
+}
+
+message W {
+    int32 id = 1 ;
+}
+
+message WResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    W websites = 3;
+}
+
+
+message laboratoriosdbResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Laboratorio laboratorios = 3;
+}
+
+//create programacion
+
+message programacionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Programacion programacion = 3;
+}
+
+// getProgramaciones
+
+message Programacion {
+    int32 id = 1;
+    string actividad = 2;
+    string laboratorio = 3;
+    string email = 4;
+    string fecha = 5;
+    string horainicio = 6;
+    string horafin = 7;
+    int32 a = 9;
+    int32 w = 10;
+}
+
+message programacionesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Programacion programaciones = 3;
 }
 
 // getDirectorios
@@ -124,8 +239,11 @@ message existFileResponse {
 }
 
 message Laboratorio {
-    string nombre = 1;
+    int32 id =1; 
+    string nombre = 2;
+    string displayName=3;
 }
+
 
 message labsmonitoringresponse {
     int32 status = 1;

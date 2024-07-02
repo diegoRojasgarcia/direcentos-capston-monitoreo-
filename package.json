@@ -26,6 +26,7 @@
     "@nestjs/apollo": "^11.0.5",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^10.2.8",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^11.0.5",
     "@nestjs/jwt": "^10.0.3",
@@ -36,15 +37,18 @@
     "@nestjs/typeorm": "^9.0.1",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "graphql": "^16.6.0",
     "nestjs-file-system": "^0.0.7",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.12.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "sqlite3": "^5.1.6",
-    "typeorm": "^0.3.16"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

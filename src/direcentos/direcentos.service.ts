@@ -5,11 +5,21 @@ import { Dates } from './class/dates.entity';
 import { PC } from './class/pc.entity';
 import { Actividad } from './class/actividad.entity';
 import { Laboratorio } from './class/laboratorio.entity';
+import { ProgramacionService } from 'src/programacion/services/programacion.service';
+import { CreateProgramacionDto } from 'src/programacion/dto/create-programacion.dto';
+import { aDto } from 'src/programacion/dto/create-a.dto';
+import { wDto } from 'src/programacion/dto/create-w.dto';
+import { UpdateLaboratorioDto } from 'src/programacion/dto/update-laboratorio.dto';
+import { UpdateProgramacionDto } from 'src/programacion/dto/update-programacion.dto';
+import { DeleteProgramacionDto } from 'src/programacion/dto/delete-programacion.dto';
+import { LaboratorioDb } from './class/laboratoriodb.entity';
 
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
 @Injectable()
 export class DirecentosService {
+  constructor(private programacionService: ProgramacionService) {}
+
   async listFile() {
     try {
       const files = await fs.readdirSync(_path.resolve(directoryPath), {
@@ -44,16 +54,21 @@ export class DirecentosService {
 
       const directorios = files.filter((archivo) => archivo.isDirectory());
 
-      directorios.forEach((dato) => {
+      directorios.forEach(async (dato) => {
         const objeto = new Laboratorio(dato.name);
-        console.log(objeto);
         laboratorios.push(objeto);
+      });
+
+      laboratorios.forEach(async (dato) => {
+        await this.programacionService.createLaboratorio({
+          nombre: dato.nombre,
+          displayName: '',
+        });
       });
 
       return {
         status: HttpStatus.OK,
         error: [],
-        folders: laboratorios,
       };
     } catch (e) {
       throw new NotFoundException(e);
@@ -280,21 +295,191 @@ export class DirecentosService {
 
   async labsMonitoring() {
     const laboratorios: Laboratorio[] = [];
-    const files = await fs.readdirSync(_path.resolve(directoryPath), {
+    const files = fs.readdirSync(_path.resolve(directoryPath), {
       withFileTypes: true,
     });
     const directorios = files.filter((archivo) => archivo.isDirectory());
-    directorios.map(async (file) => {
-      const resp = this.existFile({ lab: file.name });
-      if ((await resp).exist) {
-        const lab = new Laboratorio(file.name);
-        laboratorios.push(lab);
-      }
-    });
+
+    await Promise.all(
+      directorios.map(async (file) => {
+        const resp = await this.existFile({ lab: file.name });
+        if (resp.exist) {
+          const lab = new Laboratorio(file.name);
+          laboratorios.push(lab);
+        }
+      }),
+    );
+    const laboratoriosdb: LaboratorioDb[] = [];
+    await Promise.all(
+      laboratorios.map(async (file) => {
+        const labdb = await this.programacionService.findLabMonitoring(
+          file.nombre,
+        );
+        if (labdb) laboratoriosdb.push(labdb);
+      }),
+    );
+
     return {
       status: HttpStatus.OK,
       error: [],
-      folders: laboratorios,
+      folders: laboratoriosdb,
+    };
+  }
+
+  async labsMonitoringdb() {
+    const laboratorios: Laboratorio[] = [];
+    const files = fs.readdirSync(_path.resolve(directoryPath), {
+      withFileTypes: true,
+    });
+    const directorios = files.filter((archivo) => archivo.isDirectory());
+
+    await Promise.all(
+      directorios.map(async (file) => {
+        const resp = await this.existFile({ lab: file.name });
+        if (resp.exist) {
+          const lab = new Laboratorio(file.name);
+          laboratorios.push(lab);
+        }
+      }),
+    );
+    const laboratoriosdb: LaboratorioDb[] = [];
+    await Promise.all(
+      laboratorios.map(async (file) => {
+        const labdb = await this.programacionService.findLabMonitoring(
+          file.nombre,
+        );
+        if (labdb) laboratoriosdb.push(labdb);
+      }),
+    );
+
+    return {
+      status: HttpStatus.OK,
+      error: [],
+      folders: laboratoriosdb,
+    };
+  }
+
+  async getLaboratorios() {
+    const laboratorios = await this.programacionService.findAllLaboratorios();
+    return {
+      status: HttpStatus.OK,
+      error: [''],
+      laboratorios: laboratorios,
+    };
+  }
+
+  async getProgramaciones() {
+    const programaciones =
+      await this.programacionService.findAllProgramaciones();
+
+    return {
+      status: HttpStatus.OK,
+      error: [''],
+      programaciones: programaciones,
+    };
+  }
+
+  async createProgramacion(createProgDto: CreateProgramacionDto) {
+    const progcreated = await this.programacionService.createProgramacion(
+      createProgDto,
+    );
+    if (progcreated) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        programacion: progcreated,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['programación ya existe o laboratorio ocupado'],
+      programacion: progcreated,
+    };
+  }
+
+  async createA(createADto: aDto) {
+    const acreated = await this.programacionService.createA(createADto);
+    if (acreated) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        aplicaciones: acreated,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la creación.'],
+      aplicaciones: acreated,
+    };
+  }
+
+  async createW(createWDto: wDto) {
+    const wcreated = await this.programacionService.createW(createWDto);
+    if (wcreated) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        websites: wcreated,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la creación.'],
+      websites: wcreated,
+    };
+  }
+
+  async updateLaboratorio(updateLab: UpdateLaboratorioDto) {
+    const update = await this.programacionService.actualizarDisplayName(
+      updateLab,
+    );
+    if (update) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        laboratorio: update,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la actualización.'],
+      laboratorio: update,
+    };
+  }
+
+  async updateProgramacion(updateProgramacion: UpdateProgramacionDto) {
+    const update = await this.programacionService.actualizarProgramacion(
+      updateProgramacion,
+    );
+    if (update) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        programacion: update,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la actualización.'],
+      programacion: update,
+    };
+  }
+
+  async deleteProgramacion(deleteProgramacion: DeleteProgramacionDto) {
+    const deleted = await this.programacionService.eliminarProgramacion(
+      deleteProgramacion,
+    );
+    if (deleted) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        programacion: deleted,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la eliminación.'],
+      programacion: deleted,
     };
   }
 

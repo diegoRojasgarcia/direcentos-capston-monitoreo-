@@ -12,9 +12,14 @@ export class DirecentosController {
     return this.direcentosService.listFile();
   }
 
-  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLaboratorios')
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLaboratorioscnts')
   getLaboratorios() {
     return this.direcentosService.listLaboratorios();
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLaboratoriosdb')
+  getLaboratoriosdb() {
+    return this.direcentosService.getLaboratorios();
   }
 
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getDates')
@@ -65,5 +70,46 @@ export class DirecentosController {
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLabsMonitoring')
   getLabsMonitoring() {
     return this.direcentosService.labsMonitoring();
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getLabsMonitoringdb')
+  getLabsMonitoringdb() {
+    return this.direcentosService.labsMonitoringdb();
+  }
+
+  //programaciones
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getProgramaciones')
+  getProgramaciones(payload) {
+    return this.direcentosService.getProgramaciones();
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateProgramacion')
+  createProgramacion(payload) {
+    return this.direcentosService.createProgramacion(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateA')
+  createA(payload) {
+    return this.direcentosService.createA(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateW')
+  createW(payload) {
+    return this.direcentosService.createW(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'UpdateLab')
+  updateLab(payload) {
+    return this.direcentosService.updateLaboratorio(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'UpdateProgramacion')
+  updateProgramacion(payload) {
+    return this.direcentosService.updateProgramacion(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'DeleteProgramacion')
+  deleteProgramacion(payload) {
+    return this.direcentosService.deleteProgramacion(payload);
   }
 }

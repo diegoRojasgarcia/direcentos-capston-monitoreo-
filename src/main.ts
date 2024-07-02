@@ -2,8 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { INestMicroservice } from '@nestjs/common';
+import { INestMicroservice, ValidationPipe } from '@nestjs/common';
 import { DIRECENTOS_PACKAGE_NAME } from './direcentos/direcentos.pb';
+import { HttpExceptionFilter } from './direcentos/filter/http-exception.filter';
 
 async function bootstrap() {
   const app: INestMicroservice =
@@ -15,6 +16,8 @@ async function bootstrap() {
         protoPath: join(__dirname, './direcentos/protos/direcentos.proto'),
       },
     });
+
+  app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen();
 }
 bootstrap();
