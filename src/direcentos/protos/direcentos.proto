@@ -19,11 +19,26 @@ service DirecentosService {
     rpc getProgramaciones (Empty) returns (programacionesResponse) {}
     rpc getLaboratoriosdb (Empty) returns (laboratoriosdbResponse) {}
     rpc CreateProgramacion (Programacion) returns (programacionResponse) {}
+    rpc CreateDuracion (createDuracioninput) returns (duracionResponse) {}
     rpc CreateA (createAinput) returns (AResponse) {}
     rpc CreateW (createWinput) returns (WResponse) {}
     rpc UpdateLab (updateLabInput) returns (updateLabResponse) {}
     rpc UpdateProgramacion (updateProgramacionInput) returns (updateProgramacionResponse) {}
     rpc DeleteProgramacion (deleteProgramacionInput) returns (deleteProgramacionResponse) {}
+}
+
+//creando duracion
+
+message createDuracioninput {
+    string laboratorio = 1;
+    string actividad = 2;
+    int32 horas = 3;
+    int32 minutos = 4;
+}
+
+message duracionResponse {
+    int32 status = 1;
+    repeated string error = 2;
 }
 
 // eliminando programacion

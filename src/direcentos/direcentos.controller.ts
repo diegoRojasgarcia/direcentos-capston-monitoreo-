@@ -93,6 +93,11 @@ export class DirecentosController {
     return this.direcentosService.createA(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateDuracion')
+  createDuracion(payload) {
+    return this.direcentosService.createDuracion(payload);
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateW')
   createW(payload) {
     return this.direcentosService.createW(payload);

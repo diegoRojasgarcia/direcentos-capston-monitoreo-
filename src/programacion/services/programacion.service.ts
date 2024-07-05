@@ -12,6 +12,8 @@ import { CreateLaboratorioDto } from '../dto/create-laboratorio.dto';
 import { UpdateLaboratorioDto } from '../dto/update-laboratorio.dto';
 import { UpdateProgramacionDto } from '../dto/update-programacion.dto';
 import { DeleteProgramacionDto } from '../dto/delete-programacion.dto';
+import { Duracion } from '../entities/duracion.entity';
+import { CreateduracionDto } from '../dto/create-duracion';
 
 @Injectable()
 export class ProgramacionService {
@@ -20,6 +22,8 @@ export class ProgramacionService {
     private readonly programacionRepository: Repository<Programacion>,
     @InjectRepository(Laboratorio)
     private readonly laboratorioRepository: Repository<Laboratorio>,
+    @InjectRepository(Duracion)
+    private readonly duracionRepository: Repository<Duracion>,
     @InjectRepository(a)
     private readonly aRepository: Repository<a>,
     @InjectRepository(w)
@@ -78,6 +82,15 @@ export class ProgramacionService {
       createProgramacionDto,
     );
     return this.programacionRepository.save(newProgramacion);
+  }
+
+  async createDuracion(
+    createduracionDto: CreateduracionDto,
+  ): Promise<Duracion> {
+    const newDuroacion = await this.duracionRepository.create(
+      createduracionDto,
+    );
+    return this.duracionRepository.save(newDuroacion);
   }
 
   async createA(createADto: aDto): Promise<a> {

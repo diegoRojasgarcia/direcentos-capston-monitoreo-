@@ -13,6 +13,7 @@ import { UpdateLaboratorioDto } from 'src/programacion/dto/update-laboratorio.dt
 import { UpdateProgramacionDto } from 'src/programacion/dto/update-programacion.dto';
 import { DeleteProgramacionDto } from 'src/programacion/dto/delete-programacion.dto';
 import { LaboratorioDb } from './class/laboratoriodb.entity';
+import { CreateduracionDto } from 'src/programacion/dto/create-duracion';
 
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
@@ -436,6 +437,22 @@ export class DirecentosService {
       status: HttpStatus.CONFLICT,
       error: ['programación ya existe o laboratorio ocupado'],
       programacion: progcreated,
+    };
+  }
+
+  async createDuracion(createDuracionDto: CreateduracionDto) {
+    const duracioncreated = await this.programacionService.createDuracion(
+      createDuracionDto,
+    );
+    if (duracioncreated) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la creación.'],
     };
   }
 
