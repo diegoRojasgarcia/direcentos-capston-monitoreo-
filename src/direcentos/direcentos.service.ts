@@ -41,7 +41,11 @@ export class DirecentosService {
         folders: [],
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.NOT_FOUND,
+        error: null,
+        folders: [],
+      };
     }
   }
 
@@ -71,7 +75,10 @@ export class DirecentosService {
         error: [],
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: [],
+      };
     }
   }
 
@@ -96,7 +103,11 @@ export class DirecentosService {
         folders: dates,
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.NO_CONTENT,
+        error: [],
+        folders: [],
+      };
     }
   }
 
@@ -119,7 +130,11 @@ export class DirecentosService {
         folders: actividades,
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.NO_CONTENT,
+        error: [],
+        folders: [],
+      };
     }
   }
 
@@ -160,7 +175,11 @@ export class DirecentosService {
         folders: lastactividad,
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.NO_CONTENT,
+        error: [],
+        folders: [],
+      };
     }
   }
 
@@ -192,7 +211,11 @@ export class DirecentosService {
         folders: pcs,
       };
     } catch (e) {
-      throw new NotFoundException(e);
+      return {
+        status: HttpStatus.NO_CONTENT,
+        error: [],
+        folders: [],
+      };
     }
   }
 
@@ -299,7 +322,6 @@ export class DirecentosService {
       withFileTypes: true,
     });
     const directorios = files.filter((archivo) => archivo.isDirectory());
-
     await Promise.all(
       directorios.map(async (file) => {
         const resp = await this.existFile({ lab: file.name });
@@ -318,7 +340,6 @@ export class DirecentosService {
         if (labdb) laboratoriosdb.push(labdb);
       }),
     );
-
     return {
       status: HttpStatus.OK,
       error: [],
@@ -352,19 +373,33 @@ export class DirecentosService {
       }),
     );
 
+    if (laboratoriosdb) {
+      return {
+        status: HttpStatus.OK,
+        error: [],
+        folders: laboratoriosdb,
+      };
+    }
     return {
-      status: HttpStatus.OK,
+      status: HttpStatus.NO_CONTENT,
       error: [],
-      folders: laboratoriosdb,
+      folders: [],
     };
   }
 
   async getLaboratorios() {
     const laboratorios = await this.programacionService.findAllLaboratorios();
+    if (laboratorios) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        laboratorios: laboratorios,
+      };
+    }
     return {
-      status: HttpStatus.OK,
-      error: [''],
-      laboratorios: laboratorios,
+      status: HttpStatus.NO_CONTENT,
+      error: ['no hay laboratorios para listar'],
+      laboratorios: [],
     };
   }
 
@@ -372,10 +407,17 @@ export class DirecentosService {
     const programaciones =
       await this.programacionService.findAllProgramaciones();
 
+    if (programaciones) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        programaciones: programaciones,
+      };
+    }
     return {
-      status: HttpStatus.OK,
+      status: HttpStatus.NO_CONTENT,
       error: [''],
-      programaciones: programaciones,
+      programaciones: [],
     };
   }
 
