@@ -1,14 +1,17 @@
 import { IsEmail, IsInt, IsString } from 'class-validator';
 
 export class CreateProgramacionDto {
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
   actividad: string;
 
-  @IsEmail()
+  @IsString()
   laboratorio: string;
+
+  @IsString()
+  labdisplayname: string;
 
   @IsString()
   fecha: string;

@@ -62,6 +62,7 @@ export class ProgramacionService {
   ): Promise<Programacion> {
     //validar que la programacion no exista
     //buscar por lab, fecha y hora inicio y fin.
+    const laboratorio = createProgramacionDto.laboratorio;
     const fecha = createProgramacionDto.fecha;
     const horainicio = createProgramacionDto.horainicio;
     const horafin = createProgramacionDto.horafin;
@@ -74,6 +75,7 @@ export class ProgramacionService {
       .where('e.fecha = :fecha', { fecha })
       .andWhere(`TO_TIMESTAMP(e.horafin, 'HH24:MI') >= ${horaInicioTimestamp}`)
       .andWhere(`TO_TIMESTAMP(e.horainicio, 'HH24:MI') <= ${horaFinTimestamp}`)
+      .andWhere('e.laboratorio = :laboratorio', { laboratorio })
       .getCount();
     if (existenCoincidencias > 0) {
       return null;

@@ -407,7 +407,6 @@ export class DirecentosService {
   async getProgramaciones() {
     const programaciones =
       await this.programacionService.findAllProgramaciones();
-
     if (programaciones) {
       return {
         status: HttpStatus.OK,

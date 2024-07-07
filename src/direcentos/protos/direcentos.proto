@@ -139,6 +139,7 @@ message Programacion {
     string horafin = 7;
     int32 a = 9;
     int32 w = 10;
+    string labdisplayname = 11;
 }
 
 message programacionesResponse {

@@ -19,6 +19,9 @@ export class Programacion {
   @Column('varchar')
   laboratorio: string;
 
+  @Column('varchar')
+  labdisplayname: string;
+
   @CreateDateColumn({
     type: 'varchar',
   })
