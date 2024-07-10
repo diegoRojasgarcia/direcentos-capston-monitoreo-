@@ -14,6 +14,8 @@ import { UpdateProgramacionDto } from 'src/programacion/dto/update-programacion.
 import { DeleteProgramacionDto } from 'src/programacion/dto/delete-programacion.dto';
 import { LaboratorioDb } from './class/laboratoriodb.entity';
 import { CreateduracionDto } from 'src/programacion/dto/create-duracion';
+import { CreateAplicacionDto } from 'src/programacion/dto/create-aplicacion.dto';
+import { DeleteAplicacionDto } from 'src/programacion/dto/delete-aplicacion.dto';
 
 const directoryPath = '/Users/Dieg0/Desktop/monitoreo';
 
@@ -435,7 +437,7 @@ export class DirecentosService {
     return {
       status: HttpStatus.CONFLICT,
       error: ['programación ya existe o laboratorio ocupado'],
-      programacion: progcreated,
+      programacion: null,
     };
   }
 
@@ -538,6 +540,58 @@ export class DirecentosService {
       status: HttpStatus.CONFLICT,
       error: ['Error en la eliminación.'],
       programacion: deleted,
+    };
+  }
+
+  async createAplicacion(createAplicacionDto: CreateAplicacionDto) {
+    const aplicacioncreated = await this.programacionService.createAplicacion(
+      createAplicacionDto,
+    );
+    if (aplicacioncreated) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        aplicacion: aplicacioncreated,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la creación.'],
+      aplicacion: null,
+    };
+  }
+
+  async deleteAplicacion(deleteAplicacion: DeleteAplicacionDto) {
+    const deleted = await this.programacionService.eliminarAplicacion(
+      deleteAplicacion,
+    );
+    if (deleted) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        aplicacion: deleted,
+      };
+    }
+    return {
+      status: HttpStatus.CONFLICT,
+      error: ['Error en la eliminación.'],
+      aplicacion: deleted,
+    };
+  }
+
+  async getAplicaciones() {
+    const aplicaciones = await this.programacionService.findAllAplicaciones();
+    if (aplicaciones) {
+      return {
+        status: HttpStatus.OK,
+        error: [''],
+        aplicaciones: aplicaciones,
+      };
+    }
+    return {
+      status: HttpStatus.NO_CONTENT,
+      error: [''],
+      aplicaciones: [],
     };
   }
 

@@ -14,6 +14,9 @@ import { UpdateProgramacionDto } from '../dto/update-programacion.dto';
 import { DeleteProgramacionDto } from '../dto/delete-programacion.dto';
 import { Duracion } from '../entities/duracion.entity';
 import { CreateduracionDto } from '../dto/create-duracion';
+import { Aplicacion } from '../entities/aplicaciones.entity';
+import { CreateAplicacionDto } from '../dto/create-aplicacion.dto';
+import { DeleteAplicacionDto } from '../dto/delete-aplicacion.dto';
 
 @Injectable()
 export class ProgramacionService {
@@ -28,6 +31,8 @@ export class ProgramacionService {
     private readonly aRepository: Repository<a>,
     @InjectRepository(w)
     private readonly wRepository: Repository<w>,
+    @InjectRepository(Aplicacion)
+    private readonly aplicacionesRepository: Repository<Aplicacion>,
   ) {}
 
   findAllProgramaciones(): Promise<Programacion[]> {
@@ -95,6 +100,32 @@ export class ProgramacionService {
     return this.duracionRepository.save(newDuroacion);
   }
 
+  findAllAplicaciones(): Promise<Aplicacion[]> {
+    return this.aplicacionesRepository.find();
+  }
+
+  async createAplicacion(
+    createaplicacionDto: CreateAplicacionDto,
+  ): Promise<Aplicacion> {
+    const newAplicacion = await this.aplicacionesRepository.create(
+      createaplicacionDto,
+    );
+    return this.aplicacionesRepository.save(newAplicacion);
+  }
+
+  async eliminarAplicacion(
+    deleteAplicacion: DeleteAplicacionDto,
+  ): Promise<Aplicacion | undefined> {
+    const actividad = await this.aplicacionesRepository.findOneBy({
+      id: deleteAplicacion.id,
+    });
+    if (!actividad) {
+      return undefined;
+    }
+    await this.aplicacionesRepository.remove(actividad);
+    return actividad;
+  }
+
   async createA(createADto: aDto): Promise<a> {
     const newA = await this.aRepository.create(createADto);
     return this.aRepository.save(newA);
@@ -146,7 +177,6 @@ export class ProgramacionService {
   async eliminarProgramacion(
     deleteProgramacion: DeleteProgramacionDto,
   ): Promise<Programacion | undefined> {
-    console.log(deleteProgramacion.id);
     const programacion = await this.programacionRepository.findOneBy({
       id: deleteProgramacion.id,
     });

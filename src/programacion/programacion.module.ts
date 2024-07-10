@@ -6,6 +6,7 @@ import { a } from './entities/a.entity';
 import { w } from './entities/w.entity';
 import { Laboratorio } from './entities/laboratorios.entity';
 import { Duracion } from './entities/duracion.entity';
+import { Aplicacion } from './entities/aplicaciones.entity';
 
 @Module({
   controllers: [],
@@ -16,6 +17,7 @@ import { Duracion } from './entities/duracion.entity';
     TypeOrmModule.forFeature([Duracion]),
     TypeOrmModule.forFeature([a]),
     TypeOrmModule.forFeature([w]),
+    TypeOrmModule.forFeature([Aplicacion]),
   ],
   exports: [ProgramacionService],
 })

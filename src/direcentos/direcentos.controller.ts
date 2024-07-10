@@ -88,6 +88,22 @@ export class DirecentosController {
     return this.direcentosService.createProgramacion(payload);
   }
 
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'createAplicacion')
+  createAplicacion(payload) {
+    return this.direcentosService.createAplicacion(payload);
+  }
+
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'DeleteAplicacion')
+  deleteAplicacion(payload) {
+    return this.direcentosService.deleteAplicacion(payload);
+  }
+
+  //programaciones
+  @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'getAplicaciones')
+  getAplicaciones(payload) {
+    return this.direcentosService.getAplicaciones();
+  }
+
   @GrpcMethod(DIRECENTOS_SERVICE_NAME, 'CreateA')
   createA(payload) {
     return this.direcentosService.createA(payload);

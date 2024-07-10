@@ -25,6 +25,50 @@ service DirecentosService {
     rpc UpdateLab (updateLabInput) returns (updateLabResponse) {}
     rpc UpdateProgramacion (updateProgramacionInput) returns (updateProgramacionResponse) {}
     rpc DeleteProgramacion (deleteProgramacionInput) returns (deleteProgramacionResponse) {}
+    rpc createAplicacion (createAplicacionInput) returns (createAplicacionResponse) {}
+    rpc DeleteAplicacion (deleteAplicacionInput) returns (deleteAplicacionResponse) {}
+    rpc getAplicaciones (Empty) returns (aplicacionesResponse) {}
+}
+
+message aplicacionesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Aplicacion aplicaciones = 3;
+}
+
+
+//creando aplicaciones
+
+message Aplicacion {
+    int32 id = 1;
+    string nombre = 2;
+}
+
+message createAplicacionInput {
+    string nombre = 1;
+}
+
+message createAplicacionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Aplicacion aplicacion = 3;
+}
+
+//eliminando aplicacion
+
+message deleteAplicacionInput {
+    int32 id = 1;
+}
+
+message deleteAplicacionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    Aplicacion aplicacion = 3;
+}
+
+message duracionResponse {
+    int32 status = 1;
+    repeated string error = 2;
 }
 
 //creando duracion
@@ -36,10 +80,6 @@ message createDuracioninput {
     int32 minutos = 4;
 }
 
-message duracionResponse {
-    int32 status = 1;
-    repeated string error = 2;
-}
 
 // eliminando programacion
 
